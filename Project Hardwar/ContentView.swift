@@ -4,19 +4,22 @@
 //
 //  Created by Dan Hegarty on 7/8/25.
 //
-
+import Foundation
 import SwiftUI
 
 struct ContentView: View {
+    var items = ["Search Elements", "Manage Organizations", "Manage Army Lists"]
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                ForEach(items, id: \.self) { item in
+                    NavigationLink(item, destination: ElementSearchView())
+                }
+            }
         }
-        .padding()
     }
+
 }
 
 #Preview {

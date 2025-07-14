@@ -1,0 +1,218 @@
+{
+    "count": 8,
+    "pages": 1,
+    "totalPages": 1,
+    "itemsPerPage": 50,
+    "items": [
+        {
+            "id": "a",
+            "name": "Geryon",
+            "image": "",
+            "version": 1.01,
+            "elementType": 0,
+            "elementClass": 2,
+            "stats": {
+                "mobility": 4,
+                "firePower": 3,
+                "armor": 3,
+                "defense": 3,
+                "weaponsAbilities": [
+                    {
+                        "name": "Tracked",
+                        "weaponsAbilityType": 1
+                    },{
+                        "name": "XMG",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Smart",
+                        "weaponsAbilityType": 2
+                    }
+                ]
+            }
+        },{
+            "id": "b",
+            "name": "Boris",
+            "image": "",
+            "version": 1.01,
+            "elementType": 1,
+            "elementClass": 3,
+            "stats": {
+                "mobility": 3,
+                "firePower": 5,
+                "armor": 3,
+                "defense": 4,
+                "weaponsAbilities": [
+                    {
+                        "name": "Ion Cannon",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Alert",
+                        "weaponsAbilityType": 0
+                    },{
+                        "name": "Grasping Manipulators",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        },{
+            "id": "C",
+            "name": "Kutuzov",
+            "image": "",
+            "version": 1.01,
+            "elementType": 0,
+            "elementClass": 4,
+            "stats": {
+                "mobility": 3,
+                "firePower": 5,
+                "armor": 5,
+                "defense": 4,
+                "weaponsAbilities": [
+                    {
+                        "name": "Tracked",
+                        "weaponsAbilityType": 1
+                    },{
+                        "name": "Smart",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Gunnery Controller",
+                        "weaponsAbilityType": 0
+                    },{
+                        "name": "Self-Repair",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        },{
+            "id": "D",
+            "name": "Verdun",
+            "image": "",
+            "version": 1.01,
+            "elementType": 0,
+            "elementClass": 2,
+            "stats": {
+                "mobility": 3,
+                "firePower": 5,
+                "armor": 3,
+                "defense": 2,
+                "weaponsAbilities": [
+                    {
+                        "name": "Tracked",
+                        "weaponsAbilityType": 1
+                    },{
+                        "name": "Railgun",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Smokescreen",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        },{
+            "id": "e",
+            "name": "Montgomery",
+            "image": "",
+            "version": 1.01,
+            "elementType": 1,
+            "elementClass": 3,
+            "stats": {
+                "mobility": 4,
+                "firePower": 3,
+                "armor": 4,
+                "defense": 2,
+                "weaponsAbilities": [
+                    {
+                        "name": "Tracked",
+                        "weaponsAbilityType": 1
+                    },{
+                        "name": "XMG",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Assisted Targeting",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        },{
+            "id": "f",
+            "name": "Ranger",
+            "image": "",
+            "version": 1.01,
+            "elementType": 1,
+            "elementClass": 3,
+            "stats": {
+                "mobility": 4,
+                "firePower": 5,
+                "armor": 3,
+                "defense": 3,
+                "weaponsAbilities": [
+                    {
+                        "name": "Indirect Fire",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Full Strike",
+                        "weaponsAbilityType": 0
+                    },{
+                        "name": "Smokescreen",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        },{
+            "id": "g",
+            "name": "Ranger",
+            "image": "",
+            "version": 1.01,
+            "elementType": 1,
+            "elementClass": 3,
+            "stats": {
+                "mobility": 4,
+                "firePower": 5,
+                "armor": 3,
+                "defense": 5,
+                "weaponsAbilities": [
+                    {
+                        "name": "Tracked",
+                        "weaponsAbilityType": 1
+                    },{
+                        "name": "XMG",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Assisted Targeting",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        },{
+            "id": "H",
+            "name": "Ranger",
+            "image": "",
+            "version": 1.01,
+            "elementType": 0,
+            "elementClass": 3,
+            "stats": {
+                "mobility": 4,
+                "firePower": 8,
+                "armor": 3,
+                "defense": 2,
+                "weaponsAbilities": [
+                    {
+                        "name": "Tracked",
+                        "weaponsAbilityType": 1
+                    },{
+                        "name": "XMG",
+                        "weaponsAbilityType": 2
+                    },{
+                        "name": "Bracing Mass",
+                        "weaponsAbilityType": 0
+                    },{
+                        "name": "Rapid",
+                        "weaponsAbilityType": 0
+                    },{
+                        "name": "Full Strike",
+                        "weaponsAbilityType": 0
+                    }
+                ]
+            }
+        }
+    ]
+}
