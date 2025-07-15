@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 enum WeaponsAbilityType: Int, Codable, CaseIterable, Identifiable {
     case normal = 0
@@ -48,7 +49,13 @@ struct ElementStats: Codable, Hashable {
     }
 }
 
-struct ElementData: Codable, Identifiable, Hashable {
+@Model
+final class ElementData: Codable, Identifiable, Hashable {
+    
+    enum CodingKeys: CodingKey {
+        case id, name, image, elementType, elementClass, version, stats
+    }
+    
     var id: String
     var name: String
     var image: String
@@ -72,12 +79,36 @@ struct ElementData: Codable, Identifiable, Hashable {
         self.stats = stats
     }
     
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.stats = try container.decode(ElementStats.self, forKey: .stats)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.elementClass = try container.decode(Int.self, forKey: .elementClass)
+        self.elementType = try container.decode(ElementType.self, forKey: .elementType)
+        self.version = try container.decode(Double.self, forKey: .version)
+        self.image = try container.decode(String.self, forKey: .image)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(image, forKey: .image)
+        try container.encode(elementType, forKey: .elementType)
+        try container.encode(elementClass, forKey: .elementClass)
+        try container.encode(version, forKey: .version)
+        try container.encode(stats, forKey: .stats)
+    }
+    
     static func == (lhs: ElementData, rhs: ElementData) -> Bool {
         if lhs.id == rhs.id {
             return true
         }
         return false
     }
+    
+    
 }
 
 struct NullGServerResponse: Codable {

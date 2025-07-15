@@ -48,10 +48,10 @@ struct ElementDataRow: View {
                 Text("C\(element.elementClass)").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
             }
             VStack(spacing: 3) {
-                Text("M: \(element.stats.mobility ?? 0)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
-                Text("F: \(element.stats.firePower ?? 0)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
-                Text("A: \(element.stats.armor ?? 0)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
-                Text("D: \(element.stats.defense ?? 0)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("M: \(element.stats.mobility)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("F: \(element.stats.firePower)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("A: \(element.stats.armor)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("D: \(element.stats.defense)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
             }.padding(.leading, 0)
             HStack(spacing: 1) {
                 Text("Damage:").font(.custom("Arial", size: 15)).frame(maxWidth: 75, alignment: .leading).bold()
