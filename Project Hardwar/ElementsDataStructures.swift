@@ -56,7 +56,7 @@ final class ElementData: Codable, Identifiable, Hashable {
         case id, name, image, elementType, elementClass, version, stats
     }
     
-    var id: String
+    var id: UUID
     var name: String
     var image: String
     var elementType: ElementType
@@ -69,7 +69,7 @@ final class ElementData: Codable, Identifiable, Hashable {
     }
     var stats: ElementStats = ElementStats()
     
-    init(id: String, name: String, image: String, elementType: ElementType, elementClass: Int, version: Double, stats: ElementStats) {
+    init(id: UUID, name: String, image: String, elementType: ElementType, elementClass: Int, version: Double, stats: ElementStats) {
         self.id = id
         self.name = name
         self.image = image
@@ -81,7 +81,7 @@ final class ElementData: Codable, Identifiable, Hashable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
+        self.id = try UUID(uuidString: container.decode(String.self, forKey: .id)) ?? UUID()
         self.stats = try container.decode(ElementStats.self, forKey: .stats)
         self.name = try container.decode(String.self, forKey: .name)
         self.elementClass = try container.decode(Int.self, forKey: .elementClass)
