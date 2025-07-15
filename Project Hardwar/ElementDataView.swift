@@ -78,6 +78,7 @@ struct ElementDataRow: View {
 struct ElementListingView: View {
     @StateObject private var dataSource = DataSource()
     @State private var elements: [ElementData]
+    @State private var selectedElements: Set<ElementData> = []
     
     var body: some View {
         List {
@@ -90,6 +91,9 @@ struct ElementListingView: View {
         }
         .onAppear {
             elements = dataSource.getData()
+        }
+        .toolbar {
+            EditButton()
         }
     }
     

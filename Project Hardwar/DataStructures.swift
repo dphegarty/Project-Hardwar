@@ -8,11 +8,11 @@
 import SwiftUI
 import SwiftData
 
-enum OrganizationType: String, CaseIterable {
+enum OrganizationType: String, CaseIterable, Codable {
     case normal
 }
 
-enum ParentChildType: String, CaseIterable {
+enum ParentChildType: String, CaseIterable, Codable {
     case organization
     case faction
     case armyList
@@ -22,10 +22,10 @@ enum ParentChildType: String, CaseIterable {
 final class OrganizationItem {
     var id: UUID
     var name: String
-    var factionId: UUID
+    var factionId: UUID?
     var organizationType: OrganizationType
     
-    init(id: UUID, name: String, factionId: UUID, organizationType: OrganizationType) {
+    init(id: UUID, name: String, factionId: UUID?, organizationType: OrganizationType) {
         self.id = id
         self.name = name
         self.factionId = factionId
@@ -86,5 +86,6 @@ final class ParentChildItem {
         self.id = id
         self.parentId = parentId
         self.childId = childId
+        self.parentChildType = parentChildType
     }
 }

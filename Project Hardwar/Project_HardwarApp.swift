@@ -13,7 +13,7 @@ struct Project_HardwarApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [ElementData.self])
+                .modelContainer(for: [ElementData.self, OrganizationItem.self, ArmyListItem.self, FactionItem.self, InventoryItem.self, ParentChildItem.self])
         }
     }
 }
