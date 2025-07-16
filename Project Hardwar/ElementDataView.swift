@@ -76,18 +76,16 @@ struct ElementDataRow: View {
 }
 
 struct ElementListingView: View {
+    @Environment(\.editMode) private var mode
     @StateObject private var dataSource = DataSource()
     @State private var elements: [ElementData]
-    @State private var selectedElements: Set<ElementData> = []
+    @State private var selection: Set<UUID> = []
     
     var body: some View {
-        List {
-            ForEach(elements) { element in
-                NavigationLink(destination: ElementEditView(element: element)) {
-                    ElementDataRow(element: element)
-                }
+        List(elements, selection: $selection) { element in
+            NavigationLink(destination: ElementEditView(element: element)) {
+                ElementDataRow(element: element).tag(element.id)
             }
-            .onDelete(perform: deleteElement)
         }
         .onAppear {
             elements = dataSource.getData()
@@ -95,10 +93,19 @@ struct ElementListingView: View {
         .toolbar {
             EditButton()
         }
+        .onChange(of: mode!.wrappedValue, handleSelection)
     }
     
     init(elements: [ElementData] = []) {
         self.elements = elements
+    }
+    
+    func handleSelection() {
+        if !mode!.wrappedValue.isEditing {
+            for elementID in selection {
+                print(elementID.uuidString)
+            }
+        }
     }
     
     func deleteElement(at offsets: IndexSet) {

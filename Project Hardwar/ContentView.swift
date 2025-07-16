@@ -24,7 +24,7 @@ struct ContentView: View {
                         } else if item == "Manage Organizations" {
                             OrganizationListView()
                         } else if item == "Manage Army Lists" {
-                            ElementListingView()
+                            ArmyListMainView()
                         }
                     }
                     )

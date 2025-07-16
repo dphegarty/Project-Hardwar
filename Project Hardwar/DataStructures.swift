@@ -48,13 +48,13 @@ final class FactionItem {
 final class ArmyListItem {
     var id: UUID
     var name: String
-    var factionId: UUID
-    var organizationId: UUID
+    var factionId: UUID?
+    var organizationId: UUID?
     var pointsTotal: Int = 0
     var pointsUsed: Int = 0
     var pointsAvailable: Int { pointsTotal - pointsUsed }
     
-    init(id: UUID, name: String, factionId: UUID, organizationId: UUID, pointsTotal: Int = 0, pointsUsed: Int = 0) {
+    init(id: UUID, name: String, factionId: UUID?, organizationId: UUID?, pointsTotal: Int = 0, pointsUsed: Int = 0) {
         self.id = id
         self.name = name
         self.factionId = factionId
