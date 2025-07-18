@@ -79,7 +79,7 @@ struct ElementDataRow: View {
 struct ElementDataRowById: View {
     @Environment(\.modelContext) private var context
     @State var elementId: UUID
-    @State private var element = ElementData(id: UUID(), name: "Placeholder", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
+    @State private var element = ElementData(id: UUID(), name: "Placeholder", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, manufacturer: "", stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -133,7 +133,7 @@ struct ElementDataRowById: View {
                 element = item
             }
         } catch {
-            element = ElementData(id: UUID(), name: "Error loading element data", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
+            element = ElementData(id: UUID(), name: "Error loading element data", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, manufacturer: "", stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
         }
     }
 }
@@ -192,10 +192,22 @@ struct ElementSelectionListView: View {
 struct ElementListingView: View {
     @StateObject private var dataSource = DataSource()
     @State private var elements: [ElementData] = []
+    @State private var searchText: String = ""
+    private var filteredElements: [ElementData] {
+        if searchText.isEmpty {
+            return elements
+        } else {
+            return elements.filter {
+                $0.name.lowercased().contains(searchText.lowercased()) ||
+                $0.manufacturer.lowercased().contains(searchText.lowercased()) ||
+                $0.elementClass.description.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
     
     var body: some View {
         List {
-            ForEach(elements) { element in
+            ForEach(filteredElements) { element in
                 NavigationLink(destination: ElementEditView(element: element)) {
                     ElementDataRow(element: element)
                 }
@@ -204,16 +216,9 @@ struct ElementListingView: View {
         .onAppear {
             elements = dataSource.getData()
         }
+        .searchable(text: $searchText)
     }
     
-    func deleteElement(at offsets: IndexSet) {
-        /*
-        for index in offsets {
-            let elementToDelete = elements[index]
-            print("Deleting \(elementToDelete.name ?? "unnamed element")")
-        }
-         */
-    }
 }
 
 #Preview {

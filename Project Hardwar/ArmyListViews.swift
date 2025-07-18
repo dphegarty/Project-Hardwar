@@ -54,8 +54,8 @@ struct ArmytListItemDetails: View {
     @State private var editMode: EditMode = .inactive
     
     var body: some View {
-        Form {
-            VStack{
+        VStack(alignment: .center, spacing: 5) {
+            Form {
                 Section("Details") {
                     TextField("Name:", text: $armyListItem.name)
                     Picker("Faction:", selection: $armyListItem.factionId) {
@@ -68,42 +68,56 @@ struct ArmytListItemDetails: View {
                             Text(organization.name).tag(organization.id)
                         }
                     }
-                }
-                Spacer()
-                Section("Elements") {
-                    HStack {
-                        Stepper("Class Points: \(armyListItem.pointsUsed)/\(armyListItem.pointsTotal)", value: $armyListItem.pointsTotal, in: 0...1000)
-                        Button("", systemImage: "plus", action: {
-                            showAddElement.toggle()
-                            print("Toggled Show Add Element")
-                        })
-                        .buttonStyle(.plain)
-                        .sheet(isPresented: $showAddElement) {
-                            ElementSelectionListView(armyListItem: armyListItem)
-                        }
-                    }
+                    Stepper("Class Points: \(armyListItem.pointsUsed)/\(armyListItem.pointsTotal)", value: $armyListItem.pointsTotal, in: 0...1000)
                 }
             }
-        }
-        VStack {
-            EditButton()
-            List {
-                ForEach(children) { child in
-                    ElementDataRowById(elementId: child.childId)
+            .frame(height: 230)
+            VStack {
+                HStack(alignment: .center, spacing: 20) {
+                    Text("Assigned Elements").frame(alignment: .leading).layoutPriority(1).bold()
+                    Button("Add", action: {
+                        showAddElement.toggle()
+                        print("Toggled Show Add Element")
+                    })
+                    .sheet(isPresented: $showAddElement, onDismiss: {
+                        loadChildren()
+                    }) {
+                        ElementSelectionListView(armyListItem: armyListItem)
+                    }
+                    EditButton()
+                }.padding()
+                List {
+                    ForEach(children) { child in
+                        ElementDataRowById(elementId: child.childId)
+                    }
+                    .onDelete(perform: deleteRows)
                 }
-                .onDelete(perform: deleteRows)
             }
         }
         .onAppear {
-            if let children = self.getChildren(self.armyListItem.id) {
-                self.children = children
+            loadChildren()
+        }
+    }
+    
+    func loadChildren() {
+        if let children = self.getChildren(self.armyListItem.id) {
+            self.children = children
+            armyListItem.pointsUsed = 0
+            for child in children {
+                if let elementClass = getElementClass(child.childId) {
+                    armyListItem.pointsUsed += elementClass
+                }
             }
         }
     }
     
     func deleteRows(at offsets: IndexSet) {
         offsets.forEach { index in
-            context.delete(children.remove(at: index))
+            let child = children.remove(at: index)
+            if let elementClass = getElementClass(child.childId) {
+                armyListItem.pointsUsed -= elementClass
+            }
+            context.delete(child)
         }
     }
     
@@ -113,6 +127,17 @@ struct ArmytListItemDetails: View {
                 object.parentId == id
             }))
             return children
+        } catch {
+            return nil
+        }
+    }
+    
+    func getElementClass(_ id: UUID) -> Int? {
+        do {
+            let element = try context.fetch(FetchDescriptor(predicate: #Predicate<ElementData> { object in
+                object.id == id
+            })).first
+            return element?.elementClass
         } catch {
             return nil
         }

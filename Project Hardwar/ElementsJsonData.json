@@ -11,6 +11,7 @@
             "version": 1.01,
             "elementType": 0,
             "elementClass": 2,
+            "manufacturer": "",
             "stats": {
                 "mobility": 4,
                 "firePower": 3,
@@ -36,6 +37,7 @@
             "version": 1.01,
             "elementType": 1,
             "elementClass": 3,
+            "manufacturer": "",
             "stats": {
                 "mobility": 3,
                 "firePower": 5,
@@ -61,6 +63,7 @@
             "version": 1.01,
             "elementType": 0,
             "elementClass": 4,
+            "manufacturer": "",
             "stats": {
                 "mobility": 3,
                 "firePower": 5,
@@ -89,6 +92,7 @@
             "version": 1.01,
             "elementType": 0,
             "elementClass": 2,
+            "manufacturer": "",
             "stats": {
                 "mobility": 3,
                 "firePower": 5,
@@ -114,6 +118,7 @@
             "version": 1.01,
             "elementType": 1,
             "elementClass": 3,
+            "manufacturer": "",
             "stats": {
                 "mobility": 4,
                 "firePower": 3,
@@ -139,6 +144,7 @@
             "version": 1.01,
             "elementType": 1,
             "elementClass": 3,
+            "manufacturer": "",
             "stats": {
                 "mobility": 4,
                 "firePower": 5,
@@ -159,11 +165,12 @@
             }
         },{
             "id": "d5defe62-df17-498a-b687-0f62e9332d8c",
-            "name": "Loninus",
+            "name": "Longinus",
             "image": "",
             "version": 1.01,
             "elementType": 0,
             "elementClass": 3,
+            "manufacturer": "",
             "stats": {
                 "mobility": 4,
                 "firePower": 8,

@@ -41,6 +41,6 @@ struct ElementEditView: View {
 }
 
 #Preview {
-    let example = ElementData(id: UUID(), name: "Example", image: "", elementType: .vehicle, elementClass: 1, version: 1.0, stats: ElementStats())
+    let example = ElementData(id: UUID(), name: "Example", image: "", elementType: .vehicle, elementClass: 1, version: 1.0, manufacturer: "", stats: ElementStats())
     ElementEditView(element: example)
 }

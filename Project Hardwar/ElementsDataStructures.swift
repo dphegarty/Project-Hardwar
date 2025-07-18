@@ -53,7 +53,7 @@ struct ElementStats: Codable, Hashable {
 final class ElementData: Codable, Identifiable, Hashable {
     
     enum CodingKeys: CodingKey {
-        case id, name, image, elementType, elementClass, version, stats
+        case id, name, image, elementType, elementClass, version, manufacturer, stats
     }
     
     var id: UUID
@@ -62,6 +62,7 @@ final class ElementData: Codable, Identifiable, Hashable {
     var elementType: ElementType
     var elementClass: Int
     var version: Double
+    var manufacturer: String
     var damage: Int {
         get {
             return elementClass * 2
@@ -69,7 +70,7 @@ final class ElementData: Codable, Identifiable, Hashable {
     }
     var stats: ElementStats = ElementStats()
     
-    init(id: UUID, name: String, image: String, elementType: ElementType, elementClass: Int, version: Double, stats: ElementStats) {
+    init(id: UUID, name: String, image: String, elementType: ElementType, elementClass: Int, version: Double, manufacturer: String, stats: ElementStats) {
         self.id = id
         self.name = name
         self.image = image
@@ -77,6 +78,7 @@ final class ElementData: Codable, Identifiable, Hashable {
         self.elementClass = elementClass
         self.version = version
         self.stats = stats
+        self.manufacturer = manufacturer
     }
     
     required init(from decoder: Decoder) throws {
@@ -87,6 +89,7 @@ final class ElementData: Codable, Identifiable, Hashable {
         self.elementClass = try container.decode(Int.self, forKey: .elementClass)
         self.elementType = try container.decode(ElementType.self, forKey: .elementType)
         self.version = try container.decode(Double.self, forKey: .version)
+        self.manufacturer = try container.decode(String.self, forKey: .manufacturer)
         self.image = try container.decode(String.self, forKey: .image)
     }
     
@@ -98,6 +101,7 @@ final class ElementData: Codable, Identifiable, Hashable {
         try container.encode(elementType, forKey: .elementType)
         try container.encode(elementClass, forKey: .elementClass)
         try container.encode(version, forKey: .version)
+        try container.encode(manufacturer, forKey: .manufacturer)
         try container.encode(stats, forKey: .stats)
     }
     
