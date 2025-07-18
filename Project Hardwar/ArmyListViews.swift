@@ -45,9 +45,13 @@ struct ArmyListItemView: View {
 }
 
 struct ArmytListItemDetails: View {
+    @Environment(\.modelContext) var context
     @State var armyListItem: ArmyListItem
     @Query(sort: \OrganizationItem.name) private var organizations: [OrganizationItem]
     @Query(sort: \FactionItem.name) private var factions: [FactionItem]
+    @State private var children: [ParentChildItem] = []
+    @State private var showAddElement: Bool = false
+    @State private var editMode: EditMode = .inactive
     
     var body: some View {
         Form {
@@ -67,9 +71,50 @@ struct ArmytListItemDetails: View {
                 }
                 Spacer()
                 Section("Elements") {
-                    Stepper("Class Points: \(armyListItem.pointsUsed)/\(armyListItem.pointsTotal)", value: $armyListItem.pointsTotal, in: 0...1000)
+                    HStack {
+                        Stepper("Class Points: \(armyListItem.pointsUsed)/\(armyListItem.pointsTotal)", value: $armyListItem.pointsTotal, in: 0...1000)
+                        Button("", systemImage: "plus", action: {
+                            showAddElement.toggle()
+                            print("Toggled Show Add Element")
+                        })
+                        .buttonStyle(.plain)
+                        .sheet(isPresented: $showAddElement) {
+                            ElementSelectionListView(armyListItem: armyListItem)
+                        }
+                    }
                 }
             }
+        }
+        VStack {
+            EditButton()
+            List {
+                ForEach(children) { child in
+                    ElementDataRowById(elementId: child.childId)
+                }
+                .onDelete(perform: deleteRows)
+            }
+        }
+        .onAppear {
+            if let children = self.getChildren(self.armyListItem.id) {
+                self.children = children
+            }
+        }
+    }
+    
+    func deleteRows(at offsets: IndexSet) {
+        offsets.forEach { index in
+            context.delete(children.remove(at: index))
+        }
+    }
+    
+    func getChildren(_ id: UUID) -> [ParentChildItem]? {
+        do {
+            let children = try context.fetch(FetchDescriptor(predicate: #Predicate<ParentChildItem> { object in
+                object.parentId == id
+            }))
+            return children
+        } catch {
+            return nil
         }
     }
 }

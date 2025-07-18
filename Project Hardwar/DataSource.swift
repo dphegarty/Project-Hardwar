@@ -11,9 +11,11 @@ class DataSource: ObservableObject {
     @Published var elements: [ElementData] = []
     
     func getData() -> [ElementData] {
+        print("Starting elements: \(elements.count)")
         guard let e = handleServerResponse() else {
             return []
         }
+        print("Returning elements: \(e.count)")
         return e
     }
     

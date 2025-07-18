@@ -158,33 +158,8 @@
                 ]
             }
         },{
-            "id": "86e0d781-c202-4a24-bc07-2b68edf1ee8c",
-            "name": "Ranger",
-            "image": "",
-            "version": 1.01,
-            "elementType": 1,
-            "elementClass": 3,
-            "stats": {
-                "mobility": 4,
-                "firePower": 5,
-                "armor": 3,
-                "defense": 5,
-                "weaponsAbilities": [
-                    {
-                        "name": "Tracked",
-                        "weaponsAbilityType": 1
-                    },{
-                        "name": "XMG",
-                        "weaponsAbilityType": 2
-                    },{
-                        "name": "Assisted Targeting",
-                        "weaponsAbilityType": 0
-                    }
-                ]
-            }
-        },{
             "id": "d5defe62-df17-498a-b687-0f62e9332d8c",
-            "name": "Ranger",
+            "name": "Loninus",
             "image": "",
             "version": 1.01,
             "elementType": 0,

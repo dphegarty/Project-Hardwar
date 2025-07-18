@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct WeaponsAbilityText: View {
     var weaponsAbility: WeaponsAbilityData?
@@ -75,36 +76,133 @@ struct ElementDataRow: View {
     }
 }
 
-struct ElementListingView: View {
-    @Environment(\.editMode) private var mode
-    @StateObject private var dataSource = DataSource()
-    @State private var elements: [ElementData]
-    @State private var selection: Set<UUID> = []
+struct ElementDataRowById: View {
+    @Environment(\.modelContext) private var context
+    @State var elementId: UUID
+    @State private var element = ElementData(id: UUID(), name: "Placeholder", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
     
     var body: some View {
-        List(elements, selection: $selection) { element in
-            NavigationLink(destination: ElementEditView(element: element)) {
-                ElementDataRow(element: element).tag(element.id)
+        VStack(alignment: .leading) {
+            HStack(alignment: .center, spacing: 20) {
+                Text(element.name.uppercased()).font(.subheadline).frame(maxWidth: .infinity).bold()
+                switch element.elementType {
+                case .vehicle:
+                    Text("Vehicle").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
+                case .walker:
+                    Text("Walker").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
+                }
             }
+            VStack {
+                Text("C\(element.elementClass)").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            VStack(spacing: 3) {
+                Text("M: \(element.stats.mobility)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("F: \(element.stats.firePower)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("A: \(element.stats.armor)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+                Text("D: \(element.stats.defense)").font(.custom("Arial", size: 15)).frame(maxWidth: 35, alignment: .leading)
+            }.padding(.leading, 0)
+            HStack(spacing: 1) {
+                Text("Damage:").font(.custom("Arial", size: 15)).frame(maxWidth: 75, alignment: .leading).bold()
+                ForEach(0..<element.damage, id: \.self) { i in
+                    Image(systemName: "square").imageScale(.medium)
+                }
+            }.padding(.leading, 0)
+            Text("Abilties").font(.custom("Arial", size: 15))
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack(spacing: 5) {
+                ForEach(element.stats.weaponsAbilities, id: \.name) { ability in
+                    WeaponsAbilityText(weaponsAbility: ability)
+                }
+            }
+            .padding(.leading, 10)
+        }
+        .padding(8)
+        .background(Color.gray.opacity(0.2))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .onAppear {
+            populateElementData()
+        }
+    }
+    
+    func populateElementData() {
+        do {
+            if let item = try context.fetch(FetchDescriptor(predicate: #Predicate<ElementData> { object in
+                object.id == elementId
+            })).first {
+                element = item
+            }
+        } catch {
+            element = ElementData(id: UUID(), name: "Error loading element data", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
+        }
+    }
+}
+
+struct ElementSelectionListView: View {
+    @Environment(\.modelContext) var context
+    @Environment(\.dismiss) var dismiss
+    @State private var editMode: EditMode = .active
+    @StateObject private var dataSource = DataSource()
+    @State private var elements: [ElementData] = []
+    @State private var selection: Set<UUID> = []
+    @State var armyListItem: ArmyListItem
+    @State private var finishedSelection: Bool = false
+    
+    var body: some View {
+        Button("Done") {
+            finishedSelection.toggle()
+            handleSelection()
+        }
+        List(elements, selection: $selection) { element in
+            ElementDataRow(element: element).tag(element.id)
         }
         .onAppear {
             elements = dataSource.getData()
         }
-        .toolbar {
-            EditButton()
-        }
-        .onChange(of: mode!.wrappedValue, handleSelection)
-    }
-    
-    init(elements: [ElementData] = []) {
-        self.elements = elements
+        .environment(\.editMode, $editMode)
     }
     
     func handleSelection() {
-        if !mode!.wrappedValue.isEditing {
-            for elementID in selection {
-                print(elementID.uuidString)
+        for elementId in selection {
+            let parentChildItem = ParentChildItem(parentId: armyListItem.id, childId: elementId, parentChildType: .armyList)
+            context.insert(parentChildItem)
+            if !doesDetailsElementExist(elementId) {
+                if let element = elements.first(where: { $0.id == elementId }) {
+                    context.insert(element)
+                }
             }
+        }
+        dismiss()
+    }
+    
+    func doesDetailsElementExist(_ elementId: UUID) -> Bool {
+        do {
+            if try context.fetch(FetchDescriptor(predicate: #Predicate<ElementData> { object in
+                object.id == elementId
+            })).isEmpty {
+                return false
+            }
+            return true
+        } catch {
+            return true
+        }
+    }
+}
+
+struct ElementListingView: View {
+    @StateObject private var dataSource = DataSource()
+    @State private var elements: [ElementData] = []
+    
+    var body: some View {
+        List {
+            ForEach(elements) { element in
+                NavigationLink(destination: ElementEditView(element: element)) {
+                    ElementDataRow(element: element)
+                }
+            }
+        }
+        .onAppear {
+            elements = dataSource.getData()
         }
     }
     

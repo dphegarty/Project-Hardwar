@@ -82,8 +82,8 @@ final class ParentChildItem {
     var childId: UUID
     var parentChildType: ParentChildType
     
-    init(id: UUID, parentId: UUID, childId: UUID, parentChildType: ParentChildType) {
-        self.id = id
+    init(parentId: UUID, childId: UUID, parentChildType: ParentChildType) {
+        self.id = UUID()
         self.parentId = parentId
         self.childId = childId
         self.parentChildType = parentChildType
