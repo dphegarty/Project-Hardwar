@@ -116,9 +116,11 @@ final class ElementData: Codable, Identifiable, Hashable {
 }
 
 struct NullGServerResponse: Codable {
-    var items: [ElementData]?
-    var count: Int?
-    var page: Int?
+    var currentPage: Int?
     var totalPages: Int?
     var itemsPerPage: Int?
+    var totalItems: Int?
+    var items: [ElementData]?
+    var status: String?
+    var message: String?
 }

@@ -9,6 +9,32 @@ import Foundation
 
 class DataSource: ObservableObject {
     @Published var elements: [ElementData] = []
+    var scheme = "https"
+    var host = "api.nullg.tech"
+    var apikey = "387e7e73-afae-4bd6-b6f2-a658c17d5d03"
+    
+    private func getURL(path: String) -> URL? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = scheme
+        urlComponents.host = host
+        urlComponents.path = path
+        print("URL: \(urlComponents.url?.absoluteString ?? "N/A")")
+        return urlComponents.url
+    }
+    
+    func getURLRequest(method: String, path: String) -> URLRequest? {
+        var request: URLRequest?
+        if let url = getURL(path: path) {
+            request = URLRequest(url: url)
+            request?.httpMethod = method
+            request?.setValue(apikey, forHTTPHeaderField: "X-API-Key")
+            request?.setValue("gzip, deflate, br", forHTTPHeaderField: "Accept-Encoding")
+            if method.uppercased() == "POST" {
+                request?.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            }
+        }
+        return request
+    }
     
     func getData() -> [ElementData] {
         print("Starting elements: \(elements.count)")
@@ -17,6 +43,10 @@ class DataSource: ObservableObject {
         }
         print("Returning elements: \(e.count)")
         return e
+    }
+    
+    private func getNetworData() -> [ElementData]? {
+        return nil
     }
     
     private func handleServerResponse() -> [ElementData]? {

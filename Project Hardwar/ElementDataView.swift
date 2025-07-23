@@ -214,9 +214,38 @@ struct ElementListingView: View {
             }
         }
         .onAppear {
-            elements = dataSource.getData()
+            //elements = dataSource.getData()
+            fetchData()
         }
         .searchable(text: $searchText)
+    }
+    
+    func fetchData() {
+        if let request = dataSource.getURLRequest(method: "post", path: "/v4/hardwar/elementData") {
+            let filter: [String:AnyHashable] = [:]
+            let project: [String:AnyHashable] = [:]
+            let requestBody: [String: AnyHashable] = [
+                "filter": filter,
+                "itemsPerPage": 50,
+                "page": 1,
+                "project": project
+            ]
+            let uploadData = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
+            URLSession.shared.uploadTask(with: request, from: uploadData) { data, response, error in
+                guard let data = data else { return }
+                guard let response = response as? HTTPURLResponse else { return }
+                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    do {
+                        let serverResponse = try JSONDecoder().decode(NullGServerResponse.self, from: JSONSerialization.data(withJSONObject: json, options: []))
+                        DispatchQueue.main.async {
+                            self.elements = serverResponse.items ?? []
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }.resume()
+        }
     }
     
 }
