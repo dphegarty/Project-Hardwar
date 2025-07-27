@@ -13,6 +13,20 @@ enum WeaponsAbilityType: Int, Codable, CaseIterable, Identifiable {
     case normal = 0
     case motive = 1
     case armamentUpgrade = 2
+    case flaw = 3
+    
+    var title: String {
+        switch self {
+        case .normal:
+            return "Normal"
+        case .motive:
+            return "Motive"
+        case .armamentUpgrade:
+            return "Armament Upgrade"
+        case .flaw:
+            return "Flaw"
+        }
+    }
     
     var id: Int { self.rawValue }
 }
@@ -20,6 +34,21 @@ enum WeaponsAbilityType: Int, Codable, CaseIterable, Identifiable {
 enum ElementType: Int, Codable, CaseIterable, Identifiable {
     case vehicle = 0
     case walker = 1
+    case trooper = 2
+    case aircraft = 3
+    
+    var title: String {
+        switch self {
+        case .vehicle:
+            return "Vehicle"
+        case .walker:
+            return "Walker"
+        case .trooper:
+            return "Trooper"
+        case .aircraft:
+            return "Aircraft"
+        }
+    }
     
     var id: Int { self.rawValue }
 }
@@ -27,6 +56,7 @@ enum ElementType: Int, Codable, CaseIterable, Identifiable {
 struct WeaponsAbilityData: Codable, Hashable {
     var name: String?
     var weaponsAbilityType: WeaponsAbilityType?
+    var value: Int?
 }
 
 struct ElementStats: Codable, Hashable {

@@ -38,12 +38,7 @@ struct ElementDataRow: View {
         VStack(alignment: .leading) {
             HStack(alignment: .center, spacing: 20) {
                 Text(element.name.uppercased()).font(.subheadline).frame(maxWidth: .infinity).bold()
-                switch element.elementType {
-                case .vehicle:
-                    Text("Vehicle").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
-                case .walker:
-                    Text("Walker").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
-                }
+                Text(element.elementType.title).font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
             }
             VStack {
                 Text("C\(element.elementClass)").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
@@ -85,12 +80,7 @@ struct ElementDataRowById: View {
         VStack(alignment: .leading) {
             HStack(alignment: .center, spacing: 20) {
                 Text(element.name.uppercased()).font(.subheadline).frame(maxWidth: .infinity).bold()
-                switch element.elementType {
-                case .vehicle:
-                    Text("Vehicle").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
-                case .walker:
-                    Text("Walker").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
-                }
+                Text(element.elementType.title).font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
             }
             VStack {
                 Text("C\(element.elementClass)").font(.subheadline).frame(maxWidth: .infinity, alignment: .trailing)
