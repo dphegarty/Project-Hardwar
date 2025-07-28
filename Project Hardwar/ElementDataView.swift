@@ -16,7 +16,7 @@ struct WeaponsAbilityText: View {
     var body: some View {
         if let a = weaponsAbility {
             switch a.weaponsAbilityType {
-            case .normal:
+            case .ability:
                 Text("\(a.name ?? "No Name")\(separator)").font(.custom("Arial", size: 11))
             case .motive:
                 Text("\(a.name ?? "No Name")\(separator)").font(.custom("Arial", size: 11)).italic()

@@ -20,13 +20,16 @@
                 "weaponsAbilities": [
                     {
                         "name": "Tracked",
-                        "weaponsAbilityType": 1
+                        "weaponsAbilityType": 1,
+                        "value": 1
                     },{
                         "name": "XMG",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Smart",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     }
                 ]
             }
@@ -46,13 +49,16 @@
                 "weaponsAbilities": [
                     {
                         "name": "Ion Cannon",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Alert",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     },{
                         "name": "Grasping Manipulators",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     }
                 ]
             }
@@ -72,16 +78,20 @@
                 "weaponsAbilities": [
                     {
                         "name": "Tracked",
-                        "weaponsAbilityType": 1
+                        "weaponsAbilityType": 1,
+                        "value": 1
                     },{
                         "name": "Smart",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Gunnery Controller",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     },{
                         "name": "Self-Repair",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     }
                 ]
             }
@@ -101,13 +111,16 @@
                 "weaponsAbilities": [
                     {
                         "name": "Tracked",
-                        "weaponsAbilityType": 1
+                        "weaponsAbilityType": 1,
+                        "value": 1
                     },{
                         "name": "Railgun",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Smokescreen",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     }
                 ]
             }
@@ -127,13 +140,16 @@
                 "weaponsAbilities": [
                     {
                         "name": "Tracked",
-                        "weaponsAbilityType": 1
+                        "weaponsAbilityType": 1,
+                        "value": 1
                     },{
                         "name": "XMG",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Assisted Targeting",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     }
                 ]
             }
@@ -153,13 +169,16 @@
                 "weaponsAbilities": [
                     {
                         "name": "Indirect Fire",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Full Strike",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     },{
                         "name": "Smokescreen",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     }
                 ]
             }
@@ -179,19 +198,24 @@
                 "weaponsAbilities": [
                     {
                         "name": "Tracked",
-                        "weaponsAbilityType": 1
+                        "weaponsAbilityType": 1,
+                        "value": 1
                     },{
                         "name": "XMG",
-                        "weaponsAbilityType": 2
+                        "weaponsAbilityType": 2,
+                        "value": 1
                     },{
                         "name": "Bracing Mass",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     },{
                         "name": "Rapid",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     },{
                         "name": "Full Strike",
-                        "weaponsAbilityType": 0
+                        "weaponsAbilityType": 0,
+                        "value": 1
                     }
                 ]
             }

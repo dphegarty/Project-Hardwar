@@ -10,14 +10,15 @@ import SwiftUI
 import SwiftData
 
 enum WeaponsAbilityType: Int, Codable, CaseIterable, Identifiable {
-    case normal = 0
+    case ability = 0
     case motive = 1
     case armamentUpgrade = 2
     case flaw = 3
+    case performance = 4
     
     var title: String {
         switch self {
-        case .normal:
+        case .ability:
             return "Normal"
         case .motive:
             return "Motive"
@@ -25,6 +26,8 @@ enum WeaponsAbilityType: Int, Codable, CaseIterable, Identifiable {
             return "Armament Upgrade"
         case .flaw:
             return "Flaw"
+        case .performance:
+            return "Performance"
         }
     }
     
@@ -149,8 +152,30 @@ struct ElementConstructionData {
     var id: UUID
     var name: String
     var imageUrl: String?
-    var elementType: ElementType
-    var elementClass: Int
+    var elementType: ElementType {
+        didSet {
+            if self.elementType == .aircraft {
+                minimumMobility = elementClass
+                if self.mobility < self.elementClass {
+                    self.mobility = self.elementClass
+                }
+            } else {
+                minimumMobility = 0
+            }
+        }
+    }
+    var elementClass: Int {
+        didSet {
+            if self.elementType == .aircraft {
+                minimumMobility = elementClass
+                if self.mobility < self.elementClass {
+                    self.mobility = self.elementClass
+                }
+            } else {
+                minimumMobility = 0
+            }
+        }
+    }
     var manufacturer: String
     var version: Double
     var damage: Int {
@@ -170,6 +195,7 @@ struct ElementConstructionData {
         calculateConstructionPointsSpent()
     }
     var isExperimental: Bool = false
+    var minimumMobility: Int = 0
     
     init() {
         id = UUID()

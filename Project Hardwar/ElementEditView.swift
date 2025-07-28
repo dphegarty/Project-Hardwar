@@ -24,40 +24,48 @@ struct ElementEditView: View {
     
     var body: some View {
         VStack {
-            Section("Info") {
-                TextField("Name", text: $constructionItem.name)
-                Picker("Type", selection: $constructionItem.elementType) {
-                    ForEach(ElementType.allCases, id: \.self) { item in
-                        Text("\(item)").tag(item)
-                    }
-                }
-                .pickerStyle(.segmented)
-                Toggle("Experimental", isOn: $constructionItem.isExperimental)
-                Stepper("Class \(constructionItem.elementClass)", value: $constructionItem.elementClass, in: 1...8)
-            }
-            Section("Construction Points") {
-                VStack {
-                    Text("Total Construction Points: \(constructionItem.constructionPointsTotal)")
-                    Text("Used Construction Points: \(constructionItem.constructionPointsSpent)")
-                }
-            }
-            Section("Stats") {
-                VStack {
-                    Stepper("Mobility: \(constructionItem.mobility)", value: $constructionItem.mobility)
-                    Stepper("Firepower: \(constructionItem.firePower)", value: $constructionItem.firePower)
-                    Stepper("Armor: \(constructionItem.armor)", value: $constructionItem.armor)
-                    Stepper("Defense: \(constructionItem.defense)", value: $constructionItem.defense)
-                }
-            }
-            Section("Abilities") {
-                List {
-                    ForEach(constructionItem.weaponsAbilities, id: \.name) { ability in
-                        HStack {
-                           AbilityRow(ability: ability)
+            Form {
+                Section("Info") {
+                    TextField("Name", text: $constructionItem.name)
+                    Picker("Type", selection: $constructionItem.elementType) {
+                        ForEach(ElementType.allCases, id: \.self) { item in
+                            Text("\(item)").tag(item)
                         }
                     }
-                    .onDelete { indexSet in
-                        constructionItem.weaponsAbilities.remove(atOffsets: indexSet)
+                    .pickerStyle(.segmented)
+                    Toggle("Experimental", isOn: $constructionItem.isExperimental)
+                    Stepper("Class \(constructionItem.elementClass)", value: $constructionItem.elementClass, in: 1...8)
+                }
+                Section("Construction") {
+                    VStack {
+                        HStack {
+                            Text("Total Construction Points:").bold()
+                            Spacer()
+                            Text("\(constructionItem.constructionPointsTotal)")
+                        }
+                        HStack {
+                            Text("Used Construction Points:").bold()
+                            Spacer()
+                            Text("\(constructionItem.constructionPointsSpent)")
+                        }
+                    }
+                    VStack {
+                        Stepper("Mobility: \(constructionItem.mobility)", value: $constructionItem.mobility, in: $constructionItem.minimumMobility.wrappedValue...10)
+                        Stepper("Firepower: \(constructionItem.firePower)", value: $constructionItem.firePower)
+                        Stepper("Armor: \(constructionItem.armor)", value: $constructionItem.armor)
+                        Stepper("Defense: \(constructionItem.defense)", value: $constructionItem.defense)
+                    }
+                }
+                Section("Abilities") {
+                    List {
+                        ForEach(constructionItem.weaponsAbilities, id: \.name) { ability in
+                            HStack {
+                                AbilityRow(ability: ability)
+                            }
+                        }
+                        .onDelete { indexSet in
+                            constructionItem.weaponsAbilities.remove(atOffsets: indexSet)
+                        }
                     }
                 }
             }
