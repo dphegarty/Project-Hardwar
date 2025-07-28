@@ -74,7 +74,7 @@ struct ElementDataRow: View {
 struct ElementDataRowById: View {
     @Environment(\.modelContext) private var context
     @State var elementId: UUID
-    @State private var element = ElementData(id: UUID(), name: "Placeholder", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, manufacturer: "", stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
+    @State private var element = ElementData(id: UUID(), name: "Placeholder", imageUrl: "", elementType: .vehicle, elementClass: 0, version: 1.01, manufacturer: "", stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -123,7 +123,7 @@ struct ElementDataRowById: View {
                 element = item
             }
         } catch {
-            element = ElementData(id: UUID(), name: "Error loading element data", image: "", elementType: .vehicle, elementClass: 0, version: 1.01, manufacturer: "", stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
+            element = ElementData(id: UUID(), name: "Error loading element data", imageUrl: "", elementType: .vehicle, elementClass: 0, version: 1.01, manufacturer: "", stats: ElementStats(firePower: 0, armor: 0, defense: 0, weaponsAbilities: []))
         }
     }
 }
@@ -204,8 +204,8 @@ struct ElementListingView: View {
             }
         }
         .onAppear {
-            //elements = dataSource.getData()
-            fetchData()
+            elements = dataSource.getData()
+            //fetchData()
         }
         .searchable(text: $searchText)
     }
@@ -223,15 +223,20 @@ struct ElementListingView: View {
             let uploadData = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
             URLSession.shared.uploadTask(with: request, from: uploadData) { data, response, error in
                 guard let data = data else { return }
-                guard let response = response as? HTTPURLResponse else { return }
-                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
-                    do {
-                        let serverResponse = try JSONDecoder().decode(NullGServerResponse.self, from: JSONSerialization.data(withJSONObject: json, options: []))
-                        DispatchQueue.main.async {
-                            self.elements = serverResponse.items ?? []
+                if let response = response as? HTTPURLResponse {
+                    if response.statusCode == 200 {
+                        if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                            do {
+                                let serverResponse = try JSONDecoder().decode(NullGServerResponse.self, from: JSONSerialization.data(withJSONObject: json, options: []))
+                                DispatchQueue.main.async {
+                                    self.elements = serverResponse.items ?? []
+                                }
+                            } catch {
+                                print(error)
+                            }
                         }
-                    } catch {
-                        print(error)
+                    } else {
+                        self.elements = []
                     }
                 }
             }.resume()

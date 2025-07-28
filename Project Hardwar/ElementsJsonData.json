@@ -7,7 +7,7 @@
         {
             "id": "1fde23ae-36ba-4223-80d0-1c788d8b1727",
             "name": "Geryon",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 0,
             "elementClass": 2,
@@ -33,7 +33,7 @@
         },{
             "id": "9cd633a3-5515-48ff-9ce3-6f8209b755ff",
             "name": "Boris",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 1,
             "elementClass": 3,
@@ -59,7 +59,7 @@
         },{
             "id": "019d88e9-0ae0-4602-90c3-4c045a36aa4f",
             "name": "Kutuzov",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 0,
             "elementClass": 4,
@@ -88,7 +88,7 @@
         },{
             "id": "0efc1f9a-b0ff-4663-8191-0a0b01b75e14",
             "name": "Verdun",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 0,
             "elementClass": 2,
@@ -114,7 +114,7 @@
         },{
             "id": "0a0b3ce1-2a02-4aa9-b5c1-e0266028785e",
             "name": "Montgomery",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 1,
             "elementClass": 3,
@@ -140,7 +140,7 @@
         },{
             "id": "5fc221e7-a7f4-461d-a8b7-ec2e24f59cbc",
             "name": "Ranger",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 1,
             "elementClass": 3,
@@ -166,10 +166,10 @@
         },{
             "id": "d5defe62-df17-498a-b687-0f62e9332d8c",
             "name": "Longinus",
-            "image": "",
+            "imageUrl": "",
             "version": 1.01,
             "elementType": 0,
-            "elementClass": 3,
+            "elementClass": 4,
             "manufacturer": "",
             "stats": {
                 "mobility": 4,

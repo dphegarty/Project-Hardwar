@@ -19,49 +19,64 @@ struct AbilityRow: View {
 }
 
 struct ElementEditView: View {
-    @State var element: ElementData
-    @State private var stats: ElementStats = ElementStats()
+    //@State var element: ElementData
+    @State private var constructionItem: ElementConstructionData
     
     var body: some View {
-        Form {
-            TextField("Name", text: $element.name)
-            Picker("Type", selection: $element.elementType) {
-                ForEach(ElementType.allCases, id: \.self) { item in
-                    Text("\(item)").tag(item)
+        VStack {
+            Section("Info") {
+                TextField("Name", text: $constructionItem.name)
+                Picker("Type", selection: $constructionItem.elementType) {
+                    ForEach(ElementType.allCases, id: \.self) { item in
+                        Text("\(item)").tag(item)
+                    }
+                }
+                .pickerStyle(.segmented)
+                Toggle("Experimental", isOn: $constructionItem.isExperimental)
+                Stepper("Class \(constructionItem.elementClass)", value: $constructionItem.elementClass, in: 1...8)
+            }
+            Section("Construction Points") {
+                VStack {
+                    Text("Total Construction Points: \(constructionItem.constructionPointsTotal)")
+                    Text("Used Construction Points: \(constructionItem.constructionPointsSpent)")
                 }
             }
-            .pickerStyle(.segmented)
-            Stepper("Class \(element.elementClass)", value: $element.elementClass, in: 1...8)
             Section("Stats") {
                 VStack {
-                    Stepper("Mobility: \(stats.mobility)", value: $stats.mobility)
-                    Stepper("Firepower: \(stats.firePower)", value: $stats.firePower)
-                    Stepper("Armor: \(stats.armor)", value: $stats.armor)
-                    Stepper("Defense: \(stats.defense)", value: $stats.defense)
+                    Stepper("Mobility: \(constructionItem.mobility)", value: $constructionItem.mobility)
+                    Stepper("Firepower: \(constructionItem.firePower)", value: $constructionItem.firePower)
+                    Stepper("Armor: \(constructionItem.armor)", value: $constructionItem.armor)
+                    Stepper("Defense: \(constructionItem.defense)", value: $constructionItem.defense)
                 }
             }
             Section("Abilities") {
                 List {
-                    ForEach(stats.weaponsAbilities, id: \.name) { ability in
+                    ForEach(constructionItem.weaponsAbilities, id: \.name) { ability in
                         HStack {
                            AbilityRow(ability: ability)
                         }
                     }
+                    .onDelete { indexSet in
+                        constructionItem.weaponsAbilities.remove(atOffsets: indexSet)
+                    }
                 }
             }
         }
-        .navigationTitle("Edit \(element.name)")
+        .navigationTitle("Edit \(constructionItem.name)")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            stats = element.stats
-        }
-        .onDisappear {
-            element.stats = stats
-        }
+    }
+    
+    init(element: ElementData) {
+        //self.element = element
+        constructionItem = ElementConstructionData(element)
+    }
+    
+    func deleteWeaponsAbilities(_ offset: Int) {
+        
     }
 }
 
 #Preview {
-    let example = ElementData(id: UUID(), name: "Example", image: "", elementType: .vehicle, elementClass: 1, version: 1.0, manufacturer: "", stats: ElementStats())
+    let example = ElementData(id: UUID(), name: "Example", imageUrl: "", elementType: .vehicle, elementClass: 1, version: 1.0, manufacturer: "", stats: ElementStats())
     ElementEditView(element: example)
 }

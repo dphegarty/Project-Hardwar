@@ -83,12 +83,12 @@ struct ElementStats: Codable, Hashable {
 final class ElementData: Codable, Identifiable, Hashable {
     
     enum CodingKeys: CodingKey {
-        case id, name, image, elementType, elementClass, version, manufacturer, stats
+        case id, name, imageUrl, elementType, elementClass, version, manufacturer, stats
     }
     
     var id: UUID
     var name: String
-    var image: String
+    var imageUrl: String
     var elementType: ElementType
     var elementClass: Int
     var version: Double
@@ -100,10 +100,10 @@ final class ElementData: Codable, Identifiable, Hashable {
     }
     var stats: ElementStats = ElementStats()
     
-    init(id: UUID, name: String, image: String, elementType: ElementType, elementClass: Int, version: Double, manufacturer: String, stats: ElementStats) {
+    init(id: UUID, name: String, imageUrl: String, elementType: ElementType, elementClass: Int, version: Double, manufacturer: String, stats: ElementStats) {
         self.id = id
         self.name = name
-        self.image = image
+        self.imageUrl = imageUrl
         self.elementType = elementType
         self.elementClass = elementClass
         self.version = version
@@ -120,14 +120,14 @@ final class ElementData: Codable, Identifiable, Hashable {
         self.elementType = try container.decode(ElementType.self, forKey: .elementType)
         self.version = try container.decode(Double.self, forKey: .version)
         self.manufacturer = try container.decode(String.self, forKey: .manufacturer)
-        self.image = try container.decode(String.self, forKey: .image)
+        self.imageUrl = try container.decode(String.self, forKey: .imageUrl)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
-        try container.encode(image, forKey: .image)
+        try container.encode(imageUrl, forKey: .imageUrl)
         try container.encode(elementType, forKey: .elementType)
         try container.encode(elementClass, forKey: .elementClass)
         try container.encode(version, forKey: .version)
@@ -142,6 +142,101 @@ final class ElementData: Codable, Identifiable, Hashable {
         return false
     }
     
+    
+}
+
+struct ElementConstructionData {
+    var id: UUID
+    var name: String
+    var imageUrl: String?
+    var elementType: ElementType
+    var elementClass: Int
+    var manufacturer: String
+    var version: Double
+    var damage: Int {
+        return elementClass * 2
+    }
+    
+    var armor: Int
+    var mobility: Int
+    var defense: Int
+    var firePower: Int
+    var weaponsAbilities: [WeaponsAbilityData] = []
+    
+    var constructionPointsTotal: Int {
+        getConstructionPointsTotal()
+    }
+    var constructionPointsSpent: Int {
+        calculateConstructionPointsSpent()
+    }
+    var isExperimental: Bool = false
+    
+    init() {
+        id = UUID()
+        name = ""
+        imageUrl = nil
+        elementType = .vehicle
+        elementClass = 1
+        manufacturer = ""
+        version = 1.0
+        armor = 0
+        mobility = 0
+        firePower = 0
+        defense = 0
+        weaponsAbilities = []
+    }
+    
+    init(_ from: ElementData) {
+        id = from.id
+        name = from.name
+        imageUrl = from.imageUrl
+        elementType = from.elementType
+        elementClass = from.elementClass
+        manufacturer = from.manufacturer
+        version = from.version
+        armor = from.stats.armor
+        mobility = from.stats.mobility
+        firePower = from.stats.firePower
+        defense = from.stats.defense
+        weaponsAbilities = from.stats.weaponsAbilities
+    }
+    
+    func calculateConstructionPointsSpent() -> Int {
+        var used = mobility + firePower + armor + defense
+        used += weaponsAbilities.reduce(0) {
+            x, y in
+            switch y.weaponsAbilityType {
+            case .motive:
+                x
+            default:
+                x + (y.value ?? 1)
+            }
+        }
+        return used
+    }
+    
+    private func getConstructionPointsTotal() -> Int {
+        return (constructionPoints[elementType]?[elementClass] ?? 0) + (isExperimental ? 2 : 0)
+    }
+    
+    func export() -> ElementData {
+        return ElementData(
+            id: id,
+            name: name,
+            imageUrl: imageUrl ?? "",
+            elementType: elementType,
+            elementClass: elementClass,
+            version: version,
+            manufacturer: manufacturer,
+            stats: ElementStats(
+                mobility: mobility,
+                firePower: firePower,
+                armor: armor,
+                defense: defense,
+                weaponsAbilities: weaponsAbilities
+            )
+        )
+    }
     
 }
 
