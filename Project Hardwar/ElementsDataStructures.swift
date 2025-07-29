@@ -19,7 +19,7 @@ enum WeaponsAbilityType: Int, Codable, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .ability:
-            return "Normal"
+            return "Ability"
         case .motive:
             return "Motive"
         case .armamentUpgrade:
@@ -149,6 +149,7 @@ final class ElementData: Codable, Identifiable, Hashable {
 }
 
 struct ElementConstructionData {
+    var element: ElementData?
     var id: UUID
     var name: String
     var imageUrl: String?
@@ -213,6 +214,7 @@ struct ElementConstructionData {
     }
     
     init(_ from: ElementData) {
+        element = from
         id = from.id
         name = from.name
         imageUrl = from.imageUrl
@@ -245,23 +247,38 @@ struct ElementConstructionData {
         return (constructionPoints[elementType]?[elementClass] ?? 0) + (isExperimental ? 2 : 0)
     }
     
-    func export() -> ElementData {
-        return ElementData(
-            id: id,
-            name: name,
-            imageUrl: imageUrl ?? "",
-            elementType: elementType,
-            elementClass: elementClass,
-            version: version,
-            manufacturer: manufacturer,
-            stats: ElementStats(
-                mobility: mobility,
-                firePower: firePower,
-                armor: armor,
-                defense: defense,
-                weaponsAbilities: weaponsAbilities
+    @discardableResult func save() -> ElementData? {
+        if element == nil {
+            return ElementData(
+                id: id,
+                name: name,
+                imageUrl: imageUrl ?? "",
+                elementType: elementType,
+                elementClass: elementClass,
+                version: version,
+                manufacturer: manufacturer,
+                stats: ElementStats(
+                    mobility: mobility,
+                    firePower: firePower,
+                    armor: armor,
+                    defense: defense,
+                    weaponsAbilities: weaponsAbilities
+                )
             )
-        )
+        } else {
+            element?.name = name
+            element?.imageUrl = imageUrl ?? ""
+            element?.elementType = elementType
+            element?.elementClass = elementClass
+            element?.version = version + 0.01
+            element?.manufacturer = manufacturer
+            element?.stats.mobility = mobility
+            element?.stats.firePower = firePower
+            element?.stats.armor = armor
+            element?.stats.defense = defense
+            element?.stats.weaponsAbilities = weaponsAbilities
+        }
+        return nil
     }
     
 }

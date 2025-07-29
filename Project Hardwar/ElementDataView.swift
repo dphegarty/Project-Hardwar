@@ -245,6 +245,43 @@ struct ElementListingView: View {
     
 }
 
+struct CustomElementListingView: View {
+    @Environment(\.modelContext) private var context
+    @Query(sort: \ElementData.name) private var elements: [ElementData]
+    @State private var searchText: String = ""
+    private var filteredElements: [ElementData] {
+        if searchText.isEmpty {
+            return elements
+        } else {
+            return elements.filter {
+                $0.name.lowercased().contains(searchText.lowercased()) ||
+                $0.manufacturer.lowercased().contains(searchText.lowercased()) ||
+                $0.elementClass.description.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
+    
+    var body: some View {
+        List {
+            ForEach(filteredElements) { element in
+                NavigationLink(destination: ElementEditView(element: element)) {
+                    ElementDataRow(element: element)
+                }
+            }
+        }
+        .searchable(text: $searchText)
+        .toolbar {
+            Button("New Custom Element", systemImage: "plus", action: addElement)
+        }
+    }
+    
+    func addElement() {
+        let element = ElementData(id: UUID(), name: "", imageUrl: "", elementType: .vehicle, elementClass: 1, version: 1.0, manufacturer: "", stats: ElementStats())
+        context.insert(element)
+    }
+}
+
+
 #Preview {
     ElementListingView()
 }

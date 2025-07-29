@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     var items = [
         "Search Elements",
+        "Manage Custom Elements",
         "Manage Organizations",
         "Manage Army Lists"
     ]
@@ -19,15 +20,19 @@ struct ContentView: View {
             List {
                 ForEach(items, id: \.self) { item in
                     NavigationLink(item, destination: {
-                        if item == "Search Elements" {
+                        switch item {
+                        case "Search Elements":
                             ElementListingView()
-                        } else if item == "Manage Organizations" {
+                        case "Manage Custom Elements":
+                            CustomElementListingView()
+                        case "Manage Organizations":
                             OrganizationListView()
-                        } else if item == "Manage Army Lists" {
+                        case "Manage Army Lists":
                             ArmyListMainView()
+                        default:
+                            ElementListingView()
                         }
-                    }
-                    )
+                    })
                 }
             }
         }

@@ -19,8 +19,9 @@ struct AbilityRow: View {
 }
 
 struct ElementEditView: View {
-    //@State var element: ElementData
     @State private var constructionItem: ElementConstructionData
+    @State private var newAbility: WeaponsAbilityData = weaponAbilityOptions[0]
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         VStack {
@@ -58,6 +59,22 @@ struct ElementEditView: View {
                 }
                 Section("Abilities") {
                     List {
+                        HStack(spacing: 20) {
+                            Picker("Add:", selection: $newAbility) {
+                                ForEach(WeaponsAbilityType.allCases, id: \.rawValue) { section in
+                                    Section("\(section.title)") {
+                                        ForEach(weaponAbilityOptions.filter {$0.weaponsAbilityType == section}, id: \.name) { ability in
+                                            Text("\(ability.name ?? "No Name") Cost: \(ability.value ?? 1)").font(.caption).tag(ability)
+                                        }
+                                    }
+                                }
+                            }
+                            Spacer()
+                            Button("", systemImage: "plus") {
+                                constructionItem.weaponsAbilities.append(newAbility)
+                            }
+                            .buttonStyle(.plain)
+                        }
                         ForEach(constructionItem.weaponsAbilities, id: \.name) { ability in
                             HStack {
                                 AbilityRow(ability: ability)
@@ -72,15 +89,19 @@ struct ElementEditView: View {
         }
         .navigationTitle("Edit \(constructionItem.name)")
         .navigationBarTitleDisplayMode(.inline)
+        .onDisappear {
+            save()
+        }
     }
     
     init(element: ElementData) {
-        //self.element = element
         constructionItem = ElementConstructionData(element)
     }
     
-    func deleteWeaponsAbilities(_ offset: Int) {
-        
+    func save() {
+        if let element = constructionItem.save() {
+            modelContext.insert(element)
+        }
     }
 }
 
